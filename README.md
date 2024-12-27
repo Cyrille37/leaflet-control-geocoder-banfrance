@@ -20,6 +20,12 @@ l'API BAN est rendue accessible avec le logiciel serveur [addok](https://github.
 
 Documentation de l'[API addok](https://addok.readthedocs.io/en/latest/api/).
 
+## Photon
+
+Il est aussi possible de se passer de ce plugin en utilisant le geocodeur <code>Photon</code> fourni par [Leaflet Control Geocoder](https://github.com/perliedman/leaflet-control-geocoder).
+
+Voir la [démo photon](demo_photon-with-ban.html).
+
 ## Licence
 
 Ce projet est partagé selon la licence [MIT License](LICENSE).
