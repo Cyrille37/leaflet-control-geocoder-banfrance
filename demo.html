@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charSet="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@3.1.0/dist/Control.Geocoder.css" />
+  <script src="https://unpkg.com/leaflet-control-geocoder@3.1.0/dist/Control.Geocoder.js"></script>
+
+  <script src="./leaflet-control-geocoder-banfrance.js"></script>
+
+  <style type="text/css">
+    body {
+      margin: .5em;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    p {
+      margin: .4em;
+    }
+
+    #map {
+      height: 60vh;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>leaflet-control-geocoder BanFrance</h1>
+  <p>Ce geocodeur utilise le service <a href="https://adresse.data.gouv.fr/">https://adresse.data.gouv.fr/</a>, limité
+    aux territoires français.</p>
+  <p>Recherche une adresse dans le champ texte en haut à droite sur la carte.</p>
+  <p>Retrouver l'adresse d'une position sur la carte en cliquant sur celle-ci.</p>
+  <p><small><em>Le résultat brute est affiché dans la console Javascript du navigateur.</em></small></p>
+
+  <div id="map"></div>
+
+  <script type="text/javascript">
+
+    const map = L.map('map', {
+      scrollWheelZoom: true,
+    }).setView([47.38254, 0.69583], 12);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const geocoder = L.Control.Geocoder.banFrance({
+      // Surcharge des options par défaut (voir `BanFrance.options`)
+      geocodingQueryParams: {
+        // Par défaut c'est 5.
+        limit: 8
+      }
+    });
+
+    const control = L.Control.geocoder({
+      collapsed: false,
+      suggestMinLength: 4,
+      suggestTimeout: 500,
+      geocoder: geocoder,
+      //defaultMarkGeocode: false
+    })
+      .addTo(map);
+
+    /**
+     * Événement déclenché au choix d'une adresse parmi celles proposées par "L.Control.geocoder".
+     */
+    control.on('markgeocode', e => {
+      console.debug('Geocode result:', e.geocode);
+    });
+
+    let marker;
+
+    /**
+     * Pour retrouver l'addresse d'un point sur la carte (geocodage inverse).
+     */
+    map.on('click', function (e) {
+      geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom())).then((results) => {
+        console.debug('Reverse results:', results);
+        var r = results[0];
+        if (r) {
+          if (marker) {
+            marker.
+              setLatLng(r.center).
+              setPopupContent(r.html || r.name).
+              openPopup();
+          } else {
+            marker = L.marker(r.center).bindPopup(r.name).addTo(map).openPopup();
+          }
+        }
+      })
+    })
+
+  </script>
+
+</body>
+
+</html>
