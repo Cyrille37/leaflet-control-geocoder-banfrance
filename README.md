@@ -8,6 +8,8 @@ L'usage de ce geocoder se fait selon la documentation de "Leaflet Control Geocod
 
 Le script `leaflet-control-geocoder-banfrance.js` est écrit en simple Javascript (Vanilla JS).
 
+Voir le [code source](https://github.com/Cyrille37/leaflet-control-geocoder-banfrance).
+
 ## BAN
 
 Voir le guide [API Base Adresse Nationale (BAN Api)](https://guides.data.gouv.fr/reutiliser-des-donnees/utiliser-les-api-geographiques/utiliser-lapi-adresse).
@@ -17,3 +19,7 @@ Voir le guide [API Base Adresse Nationale (BAN Api)](https://guides.data.gouv.fr
 l'API BAN est rendue accessible avec le logiciel serveur [addok](https://github.com/addok/addok).
 
 Documentation de l'[API addok](https://addok.readthedocs.io/en/latest/api/).
+
+## Licence
+
+Ce projet est partagé selon la licence [MIT License](LICENSE).
